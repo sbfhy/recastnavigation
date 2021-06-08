@@ -23,9 +23,9 @@
 #include "SDL.h"
 #include "SDL_opengl.h"
 #ifdef __APPLE__
-#	include <OpenGL/glu.h>
+#    include <OpenGL/glu.h>
 #else
-#	include <GL/glu.h>
+#    include <GL/glu.h>
 #endif
 
 #include <vector>
@@ -45,8 +45,8 @@
 #include "Sample_Debug.h"
 
 #ifdef WIN32
-#	define snprintf _snprintf
-#	define putenv _putenv
+#    define snprintf _snprintf
+#    define putenv _putenv
 #endif
 
 using std::string;
@@ -456,12 +456,12 @@ int main(int /*argc*/, char** /*argv*/)
         
         // Handle keyboard movement.
         const Uint8* keystate = SDL_GetKeyboardState(NULL);
-        moveFront	= rcClamp(moveFront	+ dt * 4 * ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP		]) ? 1 : -1), 0.0f, 1.0f);
-        moveLeft	= rcClamp(moveLeft	+ dt * 4 * ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT		]) ? 1 : -1), 0.0f, 1.0f);
-        moveBack	= rcClamp(moveBack	+ dt * 4 * ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN		]) ? 1 : -1), 0.0f, 1.0f);
-        moveRight	= rcClamp(moveRight	+ dt * 4 * ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT	]) ? 1 : -1), 0.0f, 1.0f);
-        moveUp		= rcClamp(moveUp	+ dt * 4 * ((keystate[SDL_SCANCODE_Q] || keystate[SDL_SCANCODE_PAGEUP	]) ? 1 : -1), 0.0f, 1.0f);
-        moveDown	= rcClamp(moveDown	+ dt * 4 * ((keystate[SDL_SCANCODE_E] || keystate[SDL_SCANCODE_PAGEDOWN	]) ? 1 : -1), 0.0f, 1.0f);
+        moveFront    = rcClamp(moveFront    + dt * 4 * ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP        ]) ? 1 : -1), 0.0f, 1.0f);
+        moveLeft    = rcClamp(moveLeft    + dt * 4 * ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT        ]) ? 1 : -1), 0.0f, 1.0f);
+        moveBack    = rcClamp(moveBack    + dt * 4 * ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN        ]) ? 1 : -1), 0.0f, 1.0f);
+        moveRight    = rcClamp(moveRight    + dt * 4 * ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT    ]) ? 1 : -1), 0.0f, 1.0f);
+        moveUp        = rcClamp(moveUp    + dt * 4 * ((keystate[SDL_SCANCODE_Q] || keystate[SDL_SCANCODE_PAGEUP    ]) ? 1 : -1), 0.0f, 1.0f);
+        moveDown    = rcClamp(moveDown    + dt * 4 * ((keystate[SDL_SCANCODE_E] || keystate[SDL_SCANCODE_PAGEDOWN    ]) ? 1 : -1), 0.0f, 1.0f);
         
         float keybSpeed = 22.0f;
         if (SDL_GetModState() & KMOD_SHIFT)
@@ -861,7 +861,7 @@ int main(int /*argc*/, char** /*argv*/)
                     if (sample)
                         test->doTests(sample->getNavMesh(), sample->getNavMeshQuery());
                 }
-            }				
+            }                
                 
             imguiEndScrollArea();
         }
@@ -910,7 +910,7 @@ int main(int /*argc*/, char** /*argv*/)
         }
         
         imguiEndFrame();
-        imguiRenderGLDraw();		
+        imguiRenderGLDraw();        
         
         glEnable(GL_DEPTH_TEST);
         SDL_GL_SwapWindow(window);

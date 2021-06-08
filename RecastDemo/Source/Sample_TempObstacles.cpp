@@ -25,9 +25,9 @@
 #include "SDL.h"
 #include "SDL_opengl.h"
 #ifdef __APPLE__
-#	include <OpenGL/glu.h>
+#    include <OpenGL/glu.h>
 #else
-#	include <GL/glu.h>
+#    include <GL/glu.h>
 #endif
 #include "imgui.h"
 #include "InputGeom.h"
@@ -50,7 +50,7 @@
 #include "fastlz.h"
 
 #ifdef WIN32
-#	define snprintf _snprintf
+#    define snprintf _snprintf
 #endif
 
 
@@ -67,7 +67,7 @@ static bool isectSegAABB(const float* sp, const float* sq,
     float d[3];
     rcVsub(d, sq, sp);
     tmin = 0;  // set to -FLT_MAX to get first hit on line
-    tmax = FLT_MAX;		// set to max distance ray can travel (for segment)
+    tmax = FLT_MAX;        // set to max distance ray can travel (for segment)
     
     // For all three slabs
     for (int i = 0; i < 3; i++)
@@ -223,7 +223,7 @@ struct MeshProcess : public dtTileCacheMeshProcess
             params->offMeshConAreas = m_geom->getOffMeshConnectionAreas();
             params->offMeshConFlags = m_geom->getOffMeshConnectionFlags();
             params->offMeshConUserID = m_geom->getOffMeshConnectionId();
-            params->offMeshConCount = m_geom->getOffMeshConnectionCount();	
+            params->offMeshConCount = m_geom->getOffMeshConnectionCount();    
         }
     }
 };
@@ -760,7 +760,7 @@ public:
                 m_sample->getTilePos(m_hitPos, tx, ty);
                 m_sample->renderCachedTileOverlay(tx,ty,proj,model,view);
             }
-        }		
+        }        
     }
 };
 
@@ -1112,13 +1112,13 @@ void Sample_TempObstacles::renderCachedTileOverlay(const int tx, const int ty, d
 }
 
 void Sample_TempObstacles::handleRenderOverlay(double* proj, double* model, int* view)
-{	
+{    
     if (m_tool)
         m_tool->handleRenderOverlay(proj, model, view);
     renderOverlayToolStates(proj, model, view);
 
     // Stats
-/*	imguiDrawRect(280,10,300,100,imguiRGBA(0,0,0,64));
+/*    imguiDrawRect(280,10,300,100,imguiRGBA(0,0,0,64));
     
     char text[64];
     int y = 110-30;
@@ -1223,8 +1223,8 @@ bool Sample_TempObstacles::handleBuild()
     cfg.walkableRadius = (int)ceilf(m_agentRadius / cfg.cs);
     cfg.maxEdgeLen = (int)(m_edgeMaxLen / m_cellSize);
     cfg.maxSimplificationError = m_edgeMaxError;
-    cfg.minRegionArea = (int)rcSqr(m_regionMinSize);		// Note: area = size*size
-    cfg.mergeRegionArea = (int)rcSqr(m_regionMergeSize);	// Note: area = size*size
+    cfg.minRegionArea = (int)rcSqr(m_regionMinSize);        // Note: area = size*size
+    cfg.mergeRegionArea = (int)rcSqr(m_regionMergeSize);    // Note: area = size*size
     cfg.maxVertsPerPoly = (int)m_vertsPerPoly;
     cfg.tileSize = (int)m_tileSize;
     cfg.borderSize = cfg.walkableRadius + 3; // Reserve enough padding.

@@ -20,10 +20,10 @@
 
 #include <algorithm>
 #ifdef WIN32
-#	include <io.h>
+#    include <io.h>
 #else
-#	include <dirent.h>
-#	include <cstring>
+#    include <dirent.h>
+#    include <cstring>
 #endif
 
 using std::vector;
@@ -32,47 +32,47 @@ using std::string;
 void scanDirectoryAppend(const string& path, const string& ext, vector<string>& filelist)
 {
 #ifdef WIN32
-	string pathWithExt = path + "/*" + ext;
+    string pathWithExt = path + "/*" + ext;
 	
-	_finddata_t dir;
-	intptr_t fh = _findfirst(pathWithExt.c_str(), &dir);
-	if (fh == -1L)
+    _finddata_t dir;
+    intptr_t fh = _findfirst(pathWithExt.c_str(), &dir);
+    if (fh == -1L)
 	{
-		return;
+	    return;
 	}
 	
-	do
+    do
 	{
-		filelist.push_back(dir.name);
+	    filelist.push_back(dir.name);
 	}
-	while (_findnext(fh, &dir) == 0);
-	_findclose(fh);
+    while (_findnext(fh, &dir) == 0);
+    _findclose(fh);
 #else
-	dirent* current = 0;
-	DIR* dp = opendir(path.c_str());
-	if (!dp)
+    dirent* current = 0;
+    DIR* dp = opendir(path.c_str());
+    if (!dp)
 	{
-		return;
+	    return;
 	}
 	
-	int extLen = strlen(ext.c_str());
-	while ((current = readdir(dp)) != 0)
+    int extLen = strlen(ext.c_str());
+    while ((current = readdir(dp)) != 0)
 	{
-		int len = strlen(current->d_name);
-		if (len > extLen && strncmp(current->d_name + len - extLen, ext.c_str(), extLen) == 0)
+	    int len = strlen(current->d_name);
+	    if (len > extLen && strncmp(current->d_name + len - extLen, ext.c_str(), extLen) == 0)
 		{
-			filelist.push_back(current->d_name);
+		    filelist.push_back(current->d_name);
 		}
 	}
-	closedir(dp);
+    closedir(dp);
 #endif
 	
 	// Sort the list of files alphabetically.
-	std::sort(filelist.begin(), filelist.end());
+    std::sort(filelist.begin(), filelist.end());
 }
 
 void scanDirectory(const string& path, const string& ext, vector<string>& filelist)
 {
-	filelist.clear();
-	scanDirectoryAppend(path, ext, filelist);
+    filelist.clear();
+    scanDirectoryAppend(path, ext, filelist);
 }
