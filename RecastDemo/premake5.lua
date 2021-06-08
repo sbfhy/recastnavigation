@@ -7,120 +7,120 @@ local action = _ACTION or ""
 local todir = "Build/" .. action
 
 solution "recastnavigation"
-    configurations { 
+	configurations { 
 		"Debug",
 		"Release"
 	}
 
-    location (todir)
+	location (todir)
 
-    floatingpoint "Fast"
-    symbols "On"
-    exceptionhandling "Off"
-    rtti "Off"
-    flags { "FatalCompileWarnings" }
+	floatingpoint "Fast"
+	symbols "On"
+	exceptionhandling "Off"
+	rtti "Off"
+	flags { "FatalCompileWarnings" }
 
 	-- debug configs
-    configuration "Debug*"
-	    defines { "DEBUG" }
-	    targetdir ( todir .. "/lib/Debug" )
+	configuration "Debug*"
+		defines { "DEBUG" }
+		targetdir ( todir .. "/lib/Debug" )
  
  	-- release configs
-    configuration "Release*"
-	    defines { "NDEBUG" }
-	    optimize "On"
-	    targetdir ( todir .. "/lib/Release" )
+	configuration "Release*"
+		defines { "NDEBUG" }
+		optimize "On"
+		targetdir ( todir .. "/lib/Release" )
 
-    configuration "not windows"
-	    warnings "Extra"
+	configuration "not windows"
+		warnings "Extra"
 
 	-- windows specific
-    configuration "windows"
-	    platforms { "Win32", "Win64" }
-	    defines { "WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "_HAS_EXCEPTIONS=0" }
+	configuration "windows"
+		platforms { "Win32", "Win64" }
+		defines { "WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "_HAS_EXCEPTIONS=0" }
 		-- warnings "Extra" uses /W4 which is too aggressive for us, so use W3 instead.
 		-- Disable:
 		-- * C4351: new behavior for array initialization
-	    buildoptions { "/W3", "/wd4351" }
+		buildoptions { "/W3", "/wd4351" }
 
-    filter "platforms:Win32"
-	    architecture "x32"
+	filter "platforms:Win32"
+		architecture "x32"
 
-    filter "platforms:Win64"
-	    architecture "x64"
+	filter "platforms:Win64"
+		architecture "x64"
 
 project "DebugUtils"
-    language "C++"
-    kind "StaticLib"
-    includedirs { 
+	language "C++"
+	kind "StaticLib"
+	includedirs { 
 		"../DebugUtils/Include",
 		"../Detour/Include",
 		"../DetourTileCache/Include",
 		"../Recast/Include"
 	}
-    files { 
+	files { 
 		"../DebugUtils/Include/*.h",
 		"../DebugUtils/Source/*.cpp"
 	}
 
 project "Detour"
-    language "C++"
-    kind "StaticLib"
-    includedirs { 
+	language "C++"
+	kind "StaticLib"
+	includedirs { 
 		"../Detour/Include" 
 	}
-    files { 
+	files { 
 		"../Detour/Include/*.h", 
 		"../Detour/Source/*.cpp" 
 	}
 	-- linux library cflags and libs
-    configuration { "linux", "gmake" }
-	    buildoptions { 
+	configuration { "linux", "gmake" }
+		buildoptions { 
 			"-Wno-class-memaccess"
 		}
 
 
 project "DetourCrowd"
-    language "C++"
-    kind "StaticLib"
-    includedirs {
+	language "C++"
+	kind "StaticLib"
+	includedirs {
 		"../DetourCrowd/Include",
 		"../Detour/Include",
 		"../Recast/Include"
 	}
-    files {
+	files {
 		"../DetourCrowd/Include/*.h",
 		"../DetourCrowd/Source/*.cpp"
 	}
 
 project "DetourTileCache"
-    language "C++"
-    kind "StaticLib"
-    includedirs {
+	language "C++"
+	kind "StaticLib"
+	includedirs {
 		"../DetourTileCache/Include",
 		"../Detour/Include",
 		"../Recast/Include"
 	}
-    files {
+	files {
 		"../DetourTileCache/Include/*.h",
 		"../DetourTileCache/Source/*.cpp"
 	}
 
 project "Recast"
-    language "C++"
-    kind "StaticLib"
-    includedirs { 
+	language "C++"
+	kind "StaticLib"
+	includedirs { 
 		"../Recast/Include" 
 	}
-    files { 
+	files { 
 		"../Recast/Include/*.h",
 		"../Recast/Source/*.cpp" 
 	}
 
 project "RecastDemo"
-    language "C++"
-    kind "WindowedApp"
-    includedirs { 
+	language "C++"
+	kind "WindowedApp"
+	includedirs { 
 		"../RecastDemo/Include",
 		"../RecastDemo/Contrib",
 		"../RecastDemo/Contrib/fastlz",
@@ -130,7 +130,7 @@ project "RecastDemo"
 		"../DetourTileCache/Include",
 		"../Recast/Include"
 	}
-    files	{ 
+	files	{ 
 		"../RecastDemo/Include/*.h",
 		"../RecastDemo/Source/*.cpp",
 		"../RecastDemo/Contrib/fastlz/*.h",
@@ -138,7 +138,7 @@ project "RecastDemo"
 	}
 
 	-- project dependencies
-    links { 
+	links { 
 		"DebugUtils",
 		"Detour",
 		"DetourCrowd",
@@ -147,11 +147,11 @@ project "RecastDemo"
 	}
 
 	-- distribute executable in RecastDemo/Bin directory
-    targetdir "Bin"
+	targetdir "Bin"
 
 	-- linux library cflags and libs
-    configuration { "linux", "gmake" }
-	    buildoptions { 
+	configuration { "linux", "gmake" }
+		buildoptions { 
 			"`pkg-config --cflags sdl2`",
 			"`pkg-config --cflags gl`",
 			"`pkg-config --cflags glu`",
@@ -159,47 +159,47 @@ project "RecastDemo"
 			"-Wno-class-memaccess"
 
 		}
-	    linkoptions { 
+		linkoptions { 
 			"`pkg-config --libs sdl2`",
 			"`pkg-config --libs gl`",
 			"`pkg-config --libs glu`" 
 		}
 
 	-- windows library cflags and libs
-    configuration { "windows" }
-	    includedirs { "../RecastDemo/Contrib/SDL/include" }
-	    libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.architecture:gsub('x86_64', 'x64')}" }
-	    debugdir "../RecastDemo/Bin/"
-	    links { 
+	configuration { "windows" }
+		includedirs { "../RecastDemo/Contrib/SDL/include" }
+		libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.architecture:gsub('x86_64', 'x64')}" }
+		debugdir "../RecastDemo/Bin/"
+		links { 
 			"glu32",
 			"opengl32",
 			"SDL2",
 			"SDL2main",
 		}
-	    postbuildcommands {
+		postbuildcommands {
 			-- Copy the SDL2 dll to the Bin folder.
 			'{COPY} "%{path.getabsolute("Contrib/SDL/lib/" .. cfg.architecture:gsub("x86_64", "x64") .. "/SDL2.dll")}" "%{cfg.targetdir}"'
 		}
 
 	-- mac includes and libs
-    configuration { "macosx" }
-	    kind "ConsoleApp" -- xcode4 failes to run the project if using WindowedApp
-	    includedirs { "/Library/Frameworks/SDL2.framework/Headers" }
-	    links { 
+	configuration { "macosx" }
+		kind "ConsoleApp" -- xcode4 failes to run the project if using WindowedApp
+		includedirs { "/Library/Frameworks/SDL2.framework/Headers" }
+		links { 
 			"OpenGL.framework", 
 			"SDL2.framework",
 			"Cocoa.framework",
 		}
 
 project "Tests"
-    language "C++"
-    kind "ConsoleApp"
+	language "C++"
+	kind "ConsoleApp"
 
 	-- Catch requires RTTI and exceptions
-    exceptionhandling "On"
-    rtti "On"
+	exceptionhandling "On"
+	rtti "On"
 
-    includedirs { 
+	includedirs { 
 		"../DebugUtils/Include",
 		"../Detour/Include",
 		"../DetourCrowd/Include",
@@ -209,7 +209,7 @@ project "Tests"
 		"../Tests/Recast",
 		"../Tests",
 	}
-    files	{ 
+	files	{ 
 		"../Tests/*.h",
 		"../Tests/*.hpp",
 		"../Tests/*.cpp",
@@ -220,7 +220,7 @@ project "Tests"
 	}
 
 	-- project dependencies
-    links { 
+	links { 
 		"DebugUtils",
 		"Detour",
 		"DetourCrowd",
@@ -229,28 +229,28 @@ project "Tests"
 	}
 
 	-- distribute executable in RecastDemo/Bin directory
-    targetdir "Bin"
+	targetdir "Bin"
 
 	-- linux library cflags and libs
-    configuration { "linux", "gmake" }
-	    buildoptions { 
+	configuration { "linux", "gmake" }
+		buildoptions { 
 			"`pkg-config --cflags sdl2`",
 			"`pkg-config --cflags gl`",
 			"`pkg-config --cflags glu`",
 			"-Wno-parentheses" -- Disable parentheses warning for the Tests target, as Catch's macros generate this everywhere.
 		}
-	    linkoptions { 
+		linkoptions { 
 			"`pkg-config --libs sdl2`",
 			"`pkg-config --libs gl`",
 			"`pkg-config --libs glu`" 
 		}
 
 	-- windows library cflags and libs
-    configuration { "windows" }
-	    includedirs { "../RecastDemo/Contrib/SDL/include" }
-	    libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.architecture:gsub('x86_64', 'x64')}" }
-	    debugdir "../RecastDemo/Bin/"
-	    links { 
+	configuration { "windows" }
+		includedirs { "../RecastDemo/Contrib/SDL/include" }
+		libdirs { "../RecastDemo/Contrib/SDL/lib/%{cfg.architecture:gsub('x86_64', 'x64')}" }
+		debugdir "../RecastDemo/Bin/"
+		links { 
 			"glu32",
 			"opengl32",
 			"SDL2",
@@ -258,10 +258,10 @@ project "Tests"
 		}
 
 	-- mac includes and libs
-    configuration { "macosx" }
-	    kind "ConsoleApp"
-	    includedirs { "/Library/Frameworks/SDL2.framework/Headers" }
-	    links { 
+	configuration { "macosx" }
+		kind "ConsoleApp"
+		includedirs { "/Library/Frameworks/SDL2.framework/Headers" }
+		links { 
 			"OpenGL.framework", 
 			"SDL2.framework",
 			"Cocoa.framework",
