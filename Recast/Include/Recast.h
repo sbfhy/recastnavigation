@@ -95,8 +95,8 @@ enum rcTimerLabel
 	RC_MAX_TIMERS
 };
 
-/// Provides an interface for optional logging and performance tracking of the Recast 
-/// build process.
+/// Provides an interface for optional logging and performance tracking of the Recast build process.
+/// 为Recast编译过程提供日志和性能跟踪的接口。
 /// @ingroup recast
 class rcContext
 {
@@ -414,25 +414,55 @@ struct rcContourSet
 };
 
 /// Represents a polygon mesh suitable for use in building a navigation mesh. 
+/// 最终数据 	表示适用于构建导航网格的多边形网格。
 /// @ingroup recast
 struct rcPolyMesh
 {
 	rcPolyMesh();
 	~rcPolyMesh();
+
+	//顶点索引数组
 	unsigned short* verts;	///< The mesh vertices. [Form: (x, y, z) * #nverts]
+
+	//多边形数组。每个poly实则占用两份空间。
+    //第一部分表示真正的多边形数据。即n个顶点索引。
+    //第二部分表示公共边所邻接多边形，如果不是公共边，则可能记录边界信息。
+    //故，容量为实际poly数*2
 	unsigned short* polys;	///< Polygon and neighbor data. [Length: #maxpolys * 2 * #nvp]
+
+	//地区的id数组
 	unsigned short* regs;	///< The region id assigned to each polygon. [Length: #maxpolys]
+
+	//用户为每个多边形指定的额外参数
 	unsigned short* flags;	///< The user defined flags for each polygon. [Length: #maxpolys]
+
+	//每个多边形的可行走标记
 	unsigned char* areas;	///< The area id assigned to each polygon. [Length: #maxpolys]
+
+	//顶点数
 	int nverts;				///< The number of vertices.
+
+	//多边形个数
 	int npolys;				///< The number of polygons.
+
+	//最大多边形数
 	int maxpolys;			///< The number of allocated polygons.
+
+	//每个多边形拥有的最大顶点数
 	int nvp;				///< The maximum number of vertices per polygon.
+
+	//mesh的包围盒
 	float bmin[3];			///< The minimum bounds in world space. [(x, y, z)]
 	float bmax[3];			///< The maximum bounds in world space. [(x, y, z)]
+
+	//cell的尺寸
 	float cs;				///< The size of each cell. (On the xz-plane.)
 	float ch;				///< The height of each cell. (The minimum increment along the y-axis.)
+
+	// 世界地图的边界宽度
 	int borderSize;			///< The AABB border size used to generate the source data from which the mesh was derived.
+
+	// 网格中多边形边的最大误差
 	float maxEdgeError;		///< The max error of the polygon edges in the mesh.
 };
 

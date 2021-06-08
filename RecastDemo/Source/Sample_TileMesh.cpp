@@ -810,7 +810,7 @@ unsigned char* Sample_TileMesh::buildTileMesh(const int tx, const int ty, const 
 	const int ntris = m_geom->getMesh()->getTriCount();
 	const rcChunkyTriMesh* chunkyMesh = m_geom->getChunkyMesh();
 		
-	// Init build configuration from GUI
+	// Init build configuration from GUI			// 从GUI读入配置
 	memset(&m_cfg, 0, sizeof(m_cfg));
 	m_cfg.cs = m_cellSize;
 	m_cfg.ch = m_cellHeight;
@@ -831,12 +831,15 @@ unsigned char* Sample_TileMesh::buildTileMesh(const int tx, const int ty, const 
 	m_cfg.detailSampleMaxError = m_cellHeight * m_detailSampleMaxError;
 	
 	// Expand the heighfield bounding box by border size to find the extents of geometry we need to build this tile.
+	// 按边框大小展开heighfield边界框以查找构建此tile所需的几何体范围。
 	//
 	// This is done in order to make sure that the navmesh tiles connect correctly at the borders,
 	// and the obstacles close to the border work correctly with the dilation process.
 	// No polygons (or contours) will be created on the border area.
+	// 这样做是为了确保navmesh tiles在边界处正确连接，并且靠近边界的障碍物在膨胀过程中正确工作。
+	// 不会在边界区域创建多边形（或等高线）。
 	//
-	// IMPORTANT!
+	// IMPORTANT!				// 非常重要
 	//
 	//   :''''''''':
 	//   : +-----+ :
@@ -846,11 +849,14 @@ unsigned char* Sample_TileMesh::buildTileMesh(const int tx, const int ty, const 
 	//   : +-----+ :<-- geometry needed
 	//   :.........:
 	//
-	// You should use this bounding box to query your input geometry.
+	// You should use this bounding box to query your input geometry.	// 应使用此边界框查询输入的几何体。
 	//
 	// For example if you build a navmesh for terrain, and want the navmesh tiles to match the terrain tile size
 	// you will need to pass in data from neighbour terrain tiles too! In a simple case, just pass in all the 8 neighbours,
 	// or use the bounding box below to only pass in a sliver of each of the 8 neighbours.
+	// 例如，如果您为地形构建了一个navmesh，并希望navmesh分片与地形分片大小匹配，则还需要从相邻地形分片传入数据！
+	// 举个简单的例子，只需传入周围8个块，或使用下面的边界框仅传入周围8块中的一小部分。
+
 	rcVcopy(m_cfg.bmin, bmin);
 	rcVcopy(m_cfg.bmax, bmax);
 	m_cfg.bmin[0] -= m_cfg.borderSize*m_cfg.cs;
@@ -858,10 +864,10 @@ unsigned char* Sample_TileMesh::buildTileMesh(const int tx, const int ty, const 
 	m_cfg.bmax[0] += m_cfg.borderSize*m_cfg.cs;
 	m_cfg.bmax[2] += m_cfg.borderSize*m_cfg.cs;
 	
-	// Reset build times gathering.
+	// Reset build times gathering.			// 重置定时器
 	m_ctx->resetTimers();
 	
-	// Start the build process.
+	// Start the build process.				// 开始编译
 	m_ctx->startTimer(RC_TIMER_TOTAL);
 	
 	m_ctx->log(RC_LOG_PROGRESS, "Building navigation:");
@@ -869,6 +875,7 @@ unsigned char* Sample_TileMesh::buildTileMesh(const int tx, const int ty, const 
 	m_ctx->log(RC_LOG_PROGRESS, " - %.1fK verts, %.1fK tris", nverts/1000.0f, ntris/1000.0f);
 	
 	// Allocate voxel heightfield where we rasterize our input data to.
+	// 分配体素高度场，将输入数据栅格化。
 	m_solid = rcAllocHeightfield();
 	if (!m_solid)
 	{

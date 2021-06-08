@@ -48,5 +48,6 @@ Docs/html
 .idea/
 cmake-build-*/
 
+## 下载的文件
 *.gz
 *.zip
