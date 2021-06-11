@@ -34,7 +34,7 @@ protected:
 	struct FastLZCompressor* m_tcomp;
 	struct MeshProcess* m_tmproc;
 
-	class dtTileCache* m_tileCache;
+	class dtTileCache* m_tileCache;             // tileCache信息和处理
 	
 	float m_cacheBuildTimeMs;
 	int m_cacheCompressedSize;

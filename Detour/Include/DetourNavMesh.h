@@ -334,6 +334,7 @@ struct dtNavMeshParams
 };
 
 /// A navigation mesh based on tiles of convex polygons.
+/// 基于凸多边形tile的导航网格
 /// @ingroup detour
 class dtNavMesh
 {

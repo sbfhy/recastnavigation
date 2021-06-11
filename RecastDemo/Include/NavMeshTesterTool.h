@@ -23,6 +23,7 @@
 #include "DetourNavMesh.h"
 #include "DetourNavMeshQuery.h"
 
+// 右侧Tools选择Test Navmesh时，就是对应这个类
 class NavMeshTesterTool : public SampleTool
 {
 	Sample* m_sample;
@@ -30,20 +31,20 @@ class NavMeshTesterTool : public SampleTool
 	dtNavMesh* m_navMesh;
 	dtNavMeshQuery* m_navQuery;
 
-	dtQueryFilter m_filter;
+	dtQueryFilter m_filter;                             // 过滤
 
 	dtStatus m_pathFindStatus;
 
-	enum ToolMode
+	enum ToolMode                                       // Test Navmesh的类型
 	{
-		TOOLMODE_PATHFIND_FOLLOW,
-		TOOLMODE_PATHFIND_STRAIGHT,
-		TOOLMODE_PATHFIND_SLICED,
-		TOOLMODE_RAYCAST,
-		TOOLMODE_DISTANCE_TO_WALL,
-		TOOLMODE_FIND_POLYS_IN_CIRCLE,
-		TOOLMODE_FIND_POLYS_IN_SHAPE,
-		TOOLMODE_FIND_LOCAL_NEIGHBOURHOOD,
+		TOOLMODE_PATHFIND_FOLLOW,                       // 查找从起始多边形到终点多边形的路径
+		TOOLMODE_PATHFIND_STRAIGHT,                     // 查找从起点到终点的直线平滑路径
+		TOOLMODE_PATHFIND_SLICED,                       // 切片寻路
+		TOOLMODE_RAYCAST,                               // 起点往终点打一条射线，遇到障碍物停下
+		TOOLMODE_DISTANCE_TO_WALL,                      // 显示起点到最近墙壁的距离
+		TOOLMODE_FIND_POLYS_IN_CIRCLE,                  // 在以起点为中心，起点到终点为半径的圆内，找出所有多边形
+		TOOLMODE_FIND_POLYS_IN_SHAPE,                   // 在长方形内，找出所有多边形
+		TOOLMODE_FIND_LOCAL_NEIGHBOURHOOD,              // 找出起点周围的多边形
 	};
 	
 	ToolMode m_toolMode;
@@ -72,8 +73,8 @@ class NavMeshTesterTool : public SampleTool
 	int m_nrandPoints;
 	bool m_randPointsInCircle;
 	
-	float m_spos[3];
-	float m_epos[3];
+	float m_spos[3];                                        // 起点
+	float m_epos[3];                                        // 终点
 	float m_hitPos[3];
 	float m_hitNormal[3];
 	bool m_hitResult;
@@ -106,6 +107,7 @@ public:
 	virtual void handleRender();
 	virtual void handleRenderOverlay(double* proj, double* model, int* view);
 
+    // 具体寻路过程 
 	void recalc();
 	void drawAgent(const float* pos, float r, float h, float c, const unsigned int col);
 };

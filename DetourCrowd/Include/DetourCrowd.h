@@ -199,6 +199,7 @@ struct dtCrowdAgentDebugInfo
 };
 
 /// Provides local steering behaviors for a group of agents. 
+/// 为一组角色提供转向行为 
 /// @ingroup crowd
 class dtCrowd
 {

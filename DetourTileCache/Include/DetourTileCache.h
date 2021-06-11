@@ -160,9 +160,10 @@ public:
 	///  							If the tile cache is up to date another (immediate) call to update will have no effect;
 	///  							otherwise another call will continue processing obstacle requests and tile rebuilds.
 	dtStatus update(const float dt, class dtNavMesh* navmesh, bool* upToDate = 0);
-	
+
 	dtStatus buildNavMeshTilesAt(const int tx, const int ty, class dtNavMesh* navmesh);
-	
+
+    // 具体编译过程
 	dtStatus buildNavMeshTile(const dtCompressedTileRef ref, class dtNavMesh* navmesh);
 	
 	void calcTightTileBounds(const struct dtTileCacheLayerHeader* header, float* bmin, float* bmax) const;
@@ -228,7 +229,7 @@ private:
 		dtObstacleRef ref;
 	};
 	
-	int m_tileLutSize;						///< Tile hash lookup size (must be pot).
+	int m_tileLutSize;						///< Tile hash lookup size (must be pot). // tile哈希查找的size
 	int m_tileLutMask;						///< Tile hash lookup mask.
 	
 	dtCompressedTile** m_posLookup;			///< Tile hash lookup.

@@ -50,6 +50,7 @@ bool rcCreateChunkyTriMesh(const float* verts, const int* tris, int ntris,
 						   int trisPerChunk, rcChunkyTriMesh* cm);
 
 /// Returns the chunk indices which overlap the input rectable.
+/// 返回一个矩形内的块索引
 int rcGetChunksOverlappingRect(const rcChunkyTriMesh* cm, float bmin[2], float bmax[2], int* ids, const int maxIds);
 
 /// Returns the chunk indices which overlap the input segment.

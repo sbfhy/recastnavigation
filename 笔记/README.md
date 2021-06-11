@@ -26,7 +26,7 @@ Recast 是一个网格导航工具集，一般是用在游戏里。
 * 分割联通区域  
     把角色可行走的区域划分成简单的二维叠加区域，会得到一个不重叠的轮廓线，这大大简化了最后一步。  
 * 将联通区域简化成多边形  
-    通过先追踪边界，再对边界进行简化，使导航多边形从区域中剥离出来。最终得到的多边形被转化成了凸多边形，非常适合用于寻路和层次空间推理。
+    通过先追踪区域轮廓，再对轮廓进行简化，使导航多边形从区域中剥离出来。最终得到的多边形被转化成了凸多边形，非常适合用于寻路和层次空间推理。
 
 ## 1.2 Detour
 Detour 是一个寻路和空间推理工具包，recast必须要跟Detour结合起来用。 任何导航网格都可以和Detour结合用，但recast生成的是最切合的。  
@@ -130,8 +130,8 @@ contourMaxDeviation : 最大的采样偏移距离，最好和contourSampleDistan
 ### 2.2.3 Tools
 ```
 Test Navmesh : 可以做一些测试，甚至可以自己改源码添加接口，用来测试一些功能
-    Pathfind Follow : 虚线
-    Pathfind Straight : 直线
+    Pathfind Follow : 查找从起始多边形到终点多边形的路径
+    Pathfind Straight : 查找多边形道路内从起点到终点的直线平滑路径
         Vertices at crossings : 选项，显示路径上的点
             None 
             Area 
@@ -173,7 +173,7 @@ Create Crowds
 
 * Recast : 创建网格数据，Detour的前置工作
 * Detour : 用Recast生成的数据，创建、操作和查询导航网格
-* Crowd  : 实现了局部转向和动态避障功能
+* Crowd  : 实现了局部转向和动态避障功能, 提供群体寻路行为  
 
 ### 3.1 Recast
 ```
@@ -214,6 +214,16 @@ Create Crowds
 
 <br />
 
+# 5 扩展
+```
+RecastNavigation的所有操作都是基于地表面的，对于空中对象的交互是无法完成的，这时可以结合其他引擎，如physx进行对象的空中交互。  
+
+```
+
+
+
+<br />
+
 # 参考
 [recastnavigations github源码](https://github.com/recastnavigation/recastnavigation)  
 [Recast Navigation文档 by Steve Pratt](http://www.stevefsp.org/projects/rcndoc/prod/index.html)  
@@ -227,4 +237,7 @@ Create Crowds
 [服务器3D场景建模（九）：RecastNavigation之Detour数据结构](https://blog.csdn.net/u013272009/article/details/80281642)  
 [RecastNavigation-理解高度场](https://blog.csdn.net/you_lan_hai/article/details/77428891)  
 [NavMesh生成原理](https://zhuanlan.zhihu.com/p/40177186)  
+[RecastNavigation（3D场景建模、网格导航）](https://www.cnblogs.com/damonxu/p/9858669.html)  
+[游戏寻路之平滑路径—拉绳(漏斗)](https://blog.csdn.net/romantic_jie/article/details/114012756)  
+
 

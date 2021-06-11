@@ -704,7 +704,8 @@ void NavMeshTesterTool::recalc()
 				   m_spos[0],m_spos[1],m_spos[2], m_epos[0],m_epos[1],m_epos[2],
 				   m_filter.getIncludeFlags(), m_filter.getExcludeFlags()); 
 #endif
-
+    
+            // 查找从起始多边形到达终点多边形的路径，将路径上的多边形保存到m_polys
 			m_navQuery->findPath(m_startRef, m_endRef, m_spos, m_epos, &m_filter, m_polys, &m_npolys, MAX_POLYS);
 
 			m_nsmoothPath = 0;
@@ -728,11 +729,11 @@ void NavMeshTesterTool::recalc()
 				dtVcopy(&m_smoothPath[m_nsmoothPath*3], iterPos);
 				m_nsmoothPath++;
 				
-				// Move towards target a small advancement at a time until target reached or
-				// when ran out of memory to store the path.
+				// Move towards target a small advancement at a time until target reached or when ran out of memory to store the path.
+                // 一次向目标移动一小步，直到达到目标或内存存不下路径时。
 				while (npolys && m_nsmoothPath < MAX_SMOOTH)
 				{
-					// Find location to steer towards.
+					// Find location to steer towards.      找到操作目标的位置 
 					float steerPos[3];
 					unsigned char steerPosFlag;
 					dtPolyRef steerPosRef;
@@ -744,11 +745,12 @@ void NavMeshTesterTool::recalc()
 					bool endOfPath = (steerPosFlag & DT_STRAIGHTPATH_END) ? true : false;
 					bool offMeshConnection = (steerPosFlag & DT_STRAIGHTPATH_OFFMESH_CONNECTION) ? true : false;
 					
-					// Find movement delta.
+					// Find movement delta.     找到移动的delta
 					float delta[3], len;
 					dtVsub(delta, steerPos, iterPos);
 					len = dtMathSqrtf(dtVdot(delta, delta));
 					// If the steer target is end of path or off-mesh link, do not move past the location.
+                    // 如果转向目标是路径末端或离开网格的link，则不要越过该位置。
 					if ((endOfPath || offMeshConnection) && len < STEP_SIZE)
 						len = 1;
 					else
@@ -772,6 +774,7 @@ void NavMeshTesterTool::recalc()
 					dtVcopy(iterPos, result);
 
 					// Handle end of path and off-mesh links when close enough.
+                    // 在足够接近时处理路径末端和脱离网格的link。
 					if (endOfPath && inRange(iterPos, steerPos, SLOP, 1.0f))
 					{
 						// Reached end of path.
@@ -824,7 +827,7 @@ void NavMeshTesterTool::recalc()
 						}
 					}
 					
-					// Store results.
+					// Store results.   把结果保存到 m_smoothPath
 					if (m_nsmoothPath < MAX_SMOOTH)
 					{
 						dtVcopy(&m_smoothPath[m_nsmoothPath*3], iterPos);
@@ -854,6 +857,7 @@ void NavMeshTesterTool::recalc()
 			if (m_npolys)
 			{
 				// In case of partial path, make sure the end point is clamped to the last polygon.
+                // 如果是部分路径的情况，要确保终点在最后一个多边形上
 				float epos[3];
 				dtVcopy(epos, m_epos);
 				if (m_polys[m_npolys-1] != m_endRef)

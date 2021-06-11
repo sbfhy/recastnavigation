@@ -1182,9 +1182,9 @@ dtStatus dtNavMeshQuery::getPathToNode(dtNode* endNode, dtPolyRef* path, int* pa
 ///
 /// @warning Calling any non-slice methods before calling finalizeSlicedFindPath() 
 /// or finalizeSlicedFindPathPartial() may result in corrupted data!
+/// 警告 在调用 finalizeSlicedFindPath() 或 finalizeSlicedFindPathPartial() 之前调用任何非切片方法都可能会导致数据损坏！
 ///
-/// The @p filter pointer is stored and used for the duration of the sliced
-/// path query.
+/// The @p filter pointer is stored and used for the duration of the sliced path query.
 ///
 dtStatus dtNavMeshQuery::initSlicedFindPath(dtPolyRef startRef, dtPolyRef endRef,
 											const float* startPos, const float* endPos,
@@ -1748,7 +1748,8 @@ dtStatus dtNavMeshQuery::appendPortals(const int startIdx, const int endIdx, con
 
 /// @par
 /// 
-/// This method peforms what is often called 'string pulling'.
+/// This method peforms what is often called 'string pulling'.  拉绳算法(漏斗算法)平滑路径
+/// [游戏寻路之平滑路径—拉绳(漏斗)](https://blog.csdn.net/romantic_jie/article/details/114012756)  
 ///
 /// The start position is clamped to the first polygon in the path, and the 
 /// end position is clamped to the last. So the start and end positions should 

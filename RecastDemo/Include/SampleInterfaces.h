@@ -25,6 +25,7 @@
 #include "PerfTimer.h"
 
 // These are example implementations of various interfaces used in Recast and Detour.
+// 这些是 Recast 和 Detour 中使用的各种接口的示例实现。
 
 /// Recast build context.
 class BuildContext : public rcContext

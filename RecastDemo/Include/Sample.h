@@ -40,6 +40,7 @@ enum SampleToolType
 
 /// These are just sample areas to use consistent values across the samples.
 /// The use should specify these base on his needs.
+/// 多边形区域类型，可以自己指定修改
 enum SamplePolyAreas
 {
     SAMPLE_POLYAREA_GROUND,
@@ -49,6 +50,7 @@ enum SamplePolyAreas
     SAMPLE_POLYAREA_GRASS,
     SAMPLE_POLYAREA_JUMP,
 };
+/// 多边形类型
 enum SamplePolyFlags
 {
     SAMPLE_POLYFLAGS_WALK		= 0x01,		// Ability to walk (ground, grass, road)
@@ -99,8 +101,8 @@ struct SampleToolState {
 class Sample
 {
 protected:
-    class InputGeom* m_geom;
-    class dtNavMesh* m_navMesh;
+    class InputGeom* m_geom;                                // 导入的数据
+    class dtNavMesh* m_navMesh;                             // 最终输出的给Detour用的数据
     class dtNavMeshQuery* m_navQuery;
     class dtCrowd* m_crowd;
 

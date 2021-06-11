@@ -62,7 +62,7 @@ struct BuildSettings                        // RecastDemo Properties配置
     float detailSampleMaxError;
     // Partition type, see SamplePartitionType
     int partitionType;
-    // Bounds of the area to mesh
+    // Bounds of the area to mesh   网格区域的边界
     float navMeshBMin[3];
     float navMeshBMax[3];
     // Size of the tiles in voxels
@@ -72,7 +72,7 @@ struct BuildSettings                        // RecastDemo Properties配置
 class InputGeom
 {
     rcChunkyTriMesh* m_chunkyMesh;
-    rcMeshLoaderObj* m_mesh;
+    rcMeshLoaderObj* m_mesh;                                    // 导入进来的原始网格
     float m_meshBMin[3], m_meshBMax[3];
     BuildSettings m_buildSettings;
     bool m_hasBuildSettings;

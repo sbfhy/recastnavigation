@@ -1258,7 +1258,7 @@ bool Sample_TempObstacles::handleBuild()
         m_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not allocate tile cache.");
         return false;
     }
-    status = m_tileCache->init(&tcparams, m_talloc, m_tcomp, m_tmproc);
+    status = m_tileCache->init(&tcparams, m_talloc, m_tcomp, m_tmproc); // 用tileCache参数初始化
     if (dtStatusFailed(status))
     {
         m_ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not init tile cache.");
@@ -1297,7 +1297,7 @@ bool Sample_TempObstacles::handleBuild()
     }
     
 
-    // Preprocess tiles.
+    // Preprocess tiles.    预处理tile
     
     m_ctx->resetTimers();
     
@@ -1331,7 +1331,7 @@ bool Sample_TempObstacles::handleBuild()
         }
     }
 
-    // Build initial meshes
+    // Build initial meshes  构建初始网格
     m_ctx->startTimer(RC_TIMER_TOTAL);
     for (int y = 0; y < th; ++y)
         for (int x = 0; x < tw; ++x)

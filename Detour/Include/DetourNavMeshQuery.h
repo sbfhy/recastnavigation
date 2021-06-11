@@ -31,6 +31,7 @@
 //#define DT_VIRTUAL_QUERYFILTER 1
 
 /// Defines polygon filtering and traversal costs for navigation mesh query operations.
+/// 定义导航网格查询操作的多边形过滤和遍历成本
 /// @ingroup detour
 class dtQueryFilter
 {
@@ -161,6 +162,7 @@ public:
 
 /// Provides the ability to perform pathfinding related queries against
 /// a navigation mesh.
+/// 提供对导航网格执行寻路相关查询的接口
 /// @ingroup detour
 class dtNavMeshQuery
 {
@@ -174,10 +176,12 @@ public:
 	/// @returns The status flags for the query.
 	dtStatus init(const dtNavMesh* nav, const int maxNodes);
 	
-	/// @name Standard Pathfinding Functions
+
+	/// @name Standard Pathfinding Functions        标准寻路函数 ---------------------------------------------
 	// /@{
 
 	/// Finds a path from the start polygon to the end polygon.
+    /// 查找从起始多边形到终点多边形的路径。
 	///  @param[in]		startRef	The refrence id of the start polygon.
 	///  @param[in]		endRef		The reference id of the end polygon.
 	///  @param[in]		startPos	A position within the start polygon. [(x, y, z)]
@@ -193,6 +197,7 @@ public:
 					  dtPolyRef* path, int* pathCount, const int maxPath) const;
 
 	/// Finds the straight path from the start to the end position within the polygon corridor.
+    /// 查找多边形道路内从起点到终点的直线平滑路径。拉绳算法
 	///  @param[in]		startPos			Path start position. [(x, y, z)]
 	///  @param[in]		endPos				Path end position. [(x, y, z)]
 	///  @param[in]		path				An array of polygon references that represent the path corridor.
@@ -210,7 +215,9 @@ public:
 							  int* straightPathCount, const int maxStraightPath, const int options = 0) const;
 
 	///@}
-	/// @name Sliced Pathfinding Functions
+
+
+	/// @name Sliced Pathfinding Functions              切片寻路函数 ---------------------------------------------
 	/// Common use case:
 	///	-# Call initSlicedFindPath() to initialize the sliced path query.
 	///	-# Call updateSlicedFindPath() until it returns complete.
@@ -256,10 +263,13 @@ public:
 										   dtPolyRef* path, int* pathCount, const int maxPath);
 
 	///@}
-	/// @name Dijkstra Search Functions
+
+
+	/// @name Dijkstra Search Functions         Dijkstra 搜索功能，最短路 ---------------------------------------------
 	/// @{ 
 
 	/// Finds the polygons along the navigation graph that touch the specified circle.
+    /// 查找与指定圆相接触的多边形
 	///  @param[in]		startRef		The reference id of the polygon where the search starts.
 	///  @param[in]		centerPos		The center of the search circle. [(x, y, z)]
 	///  @param[in]		radius			The radius of the search circle.
@@ -277,6 +287,7 @@ public:
 								   int* resultCount, const int maxResult) const;
 	
 	/// Finds the polygons along the naviation graph that touch the specified convex polygon.
+    /// 查找与指定凸多边形相接触的多边形
 	///  @param[in]		startRef		The reference id of the polygon where the search starts.
 	///  @param[in]		verts			The vertices describing the convex polygon. (CCW) 
 	///  								[(x, y, z) * @p nverts]
@@ -295,6 +306,7 @@ public:
 								  int* resultCount, const int maxResult) const;
 	
 	/// Gets a path from the explored nodes in the previous search.
+    /// 从上次搜索的多边形中获取路径
 	///  @param[in]		endRef		The reference id of the end polygon.
 	///  @param[out]	path		An ordered list of polygon references representing the path. (Start to end.)
 	///  							[(polyRef) * @p pathCount]
@@ -306,13 +318,17 @@ public:
 	///  				Otherwise returns DT_SUCCESS.
 	///  @remarks		The result of this function depends on the state of the query object. For that reason it should only
 	///  				be used immediately after one of the two Dijkstra searches, findPolysAroundCircle or findPolysAroundShape.
+    ///                 此函数的结果取决于查询对象的状态。因此，它只能在findPolysAroundCircle 或 findPolysAroundShape 之后立即使用  
 	dtStatus getPathFromDijkstraSearch(dtPolyRef endRef, dtPolyRef* path, int* pathCount, int maxPath) const;
 
 	/// @}
-	/// @name Local Query Functions
+
+
+	/// @name Local Query Functions         本地查询函数 ---------------------------------------------
 	///@{
 
 	/// Finds the polygon nearest to the specified center point.
+    /// 查找离指定中心点最近的多边形
 	///  @param[in]		center		The center of the search box. [(x, y, z)]
 	///  @param[in]		halfExtents		The search distance along each axis. [(x, y, z)]
 	///  @param[in]		filter		The polygon filter to apply to the query.
@@ -324,6 +340,7 @@ public:
 							 dtPolyRef* nearestRef, float* nearestPt) const;
 	
 	/// Finds polygons that overlap the search box.
+    /// 查找与搜索框重叠的多边形
 	///  @param[in]		center		The center of the search box. [(x, y, z)]
 	///  @param[in]		halfExtents		The search distance along each axis. [(x, y, z)]
 	///  @param[in]		filter		The polygon filter to apply to the query.
@@ -336,14 +353,17 @@ public:
 						   dtPolyRef* polys, int* polyCount, const int maxPolys) const;
 
 	/// Finds polygons that overlap the search box.
+    /// 查找与搜索框重叠的多边形
 	///  @param[in]		center		The center of the search box. [(x, y, z)]
 	///  @param[in]		halfExtents		The search distance along each axis. [(x, y, z)]
 	///  @param[in]		filter		The polygon filter to apply to the query.
 	///  @param[in]		query		The query. Polygons found will be batched together and passed to this query.
+    ///                             找到的多边形将一起批处理并传递给此查询。
 	dtStatus queryPolygons(const float* center, const float* halfExtents,
 						   const dtQueryFilter* filter, dtPolyQuery* query) const;
 
 	/// Finds the non-overlapping navigation polygons in the local neighbourhood around the center position.
+    /// 在中心位置周围的本地邻域中查找非重叠导航多边形。
 	///  @param[in]		startRef		The reference id of the polygon where the search starts.
 	///  @param[in]		centerPos		The center of the query circle. [(x, y, z)]
 	///  @param[in]		radius			The radius of the query circle.
@@ -360,6 +380,7 @@ public:
 									int* resultCount, const int maxResult) const;
 
 	/// Moves from the start to the end position constrained to the navigation mesh.
+    /// 从受导航网格限制的开始位置移动到结束位置。
 	///  @param[in]		startRef		The reference id of the start polygon.
 	///  @param[in]		startPos		A position of the mover within the start polygon. [(x, y, x)]
 	///  @param[in]		endPos			The desired end position of the mover. [(x, y, z)]
@@ -373,8 +394,8 @@ public:
 							  const dtQueryFilter* filter,
 							  float* resultPos, dtPolyRef* visited, int* visitedCount, const int maxVisitedSize) const;
 	
-	/// Casts a 'walkability' ray along the surface of the navigation mesh from 
-	/// the start position toward the end position.
+	/// Casts a 'walkability' ray along the surface of the navigation mesh from the start position toward the end position.
+    /// 沿导航网格的表面从开始位置向结束位置投射“可行走性”光线。
 	/// @note A wrapper around raycast(..., RaycastHit*). Retained for backward compatibility.
 	///  @param[in]		startRef	The reference id of the start polygon.
 	///  @param[in]		startPos	A position within the start polygon representing 
@@ -391,8 +412,8 @@ public:
 					 const dtQueryFilter* filter,
 					 float* t, float* hitNormal, dtPolyRef* path, int* pathCount, const int maxPath) const;
 	
-	/// Casts a 'walkability' ray along the surface of the navigation mesh from 
-	/// the start position toward the end position.
+	/// Casts a 'walkability' ray along the surface of the navigation mesh from the start position toward the end position.
+    /// 沿导航网格的表面从开始位置向结束位置投射“可行走性”光线。
 	///  @param[in]		startRef	The reference id of the start polygon.
 	///  @param[in]		startPos	A position within the start polygon representing 
 	///  							the start of the ray. [(x, y, z)]
@@ -408,6 +429,7 @@ public:
 
 
 	/// Finds the distance from the specified position to the nearest polygon wall.
+    /// 查找从指定位置到最近多边形墙的距离。
 	///  @param[in]		startRef		The reference id of the polygon containing @p centerPos.
 	///  @param[in]		centerPos		The center of the search circle. [(x, y, z)]
 	///  @param[in]		maxRadius		The radius of the search circle.
@@ -422,6 +444,7 @@ public:
 								float* hitDist, float* hitPos, float* hitNormal) const;
 	
 	/// Returns the segments for the specified polygon, optionally including portals.
+    /// 返回指定多边形的线段（可选包括入口）。
 	///  @param[in]		ref				The reference id of the polygon.
 	///  @param[in]		filter			The polygon filter to apply to the query.
 	///  @param[out]	segmentVerts	The segments. [(ax, ay, az, bx, by, bz) * segmentCount]
@@ -436,6 +459,7 @@ public:
 
 	/// Returns random location on navmesh.
 	/// Polygons are chosen weighted by area. The search runs in linear related to number of polygon.
+    /// 返回navmesh上的随机位置。 多边形按面积加权选择。搜索以与多边形数量相关的线性方式运行。
 	///  @param[in]		filter			The polygon filter to apply to the query.
 	///  @param[in]		frand			Function returning a random number [0..1).
 	///  @param[out]	randomRef		The reference id of the random location.
@@ -447,6 +471,8 @@ public:
 	/// Returns random location on navmesh within the reach of specified location.
 	/// Polygons are chosen weighted by area. The search runs in linear related to number of polygon.
 	/// The location is not exactly constrained by the circle, but it limits the visited polygons.
+    /// 返回指定位置范围内navmesh上的随机位置。 多边形是按面积加权选择的。搜索以与多边形个数相关的线性方式运行。
+    /// 位置并不完全受圆的约束，但它限制了访问的多边形。P.S. 随机出的点不一定在圆内。
 	///  @param[in]		startRef		The reference id of the polygon where the search starts.
 	///  @param[in]		centerPos		The center of the search circle. [(x, y, z)]
 	///  @param[in]		filter			The polygon filter to apply to the query.
@@ -459,6 +485,7 @@ public:
 										 dtPolyRef* randomRef, float* randomPt) const;
 	
 	/// Finds the closest point on the specified polygon.
+    /// 查找指定多边形上的最近点
 	///  @param[in]		ref			The reference id of the polygon.
 	///  @param[in]		pos			The position to check. [(x, y, z)]
 	///  @param[out]	closest		The closest point on the polygon. [(x, y, z)]
@@ -466,8 +493,8 @@ public:
 	/// @returns The status flags for the query.
 	dtStatus closestPointOnPoly(dtPolyRef ref, const float* pos, float* closest, bool* posOverPoly) const;
 	
-	/// Returns a point on the boundary closest to the source point if the source point is outside the 
-	/// polygon's xz-bounds.
+	/// Returns a point on the boundary closest to the source point if the source point is outside the polygon's xz-bounds.
+    /// 如果源点位于多边形的xz边界之外，则返回距离源点最近的边界上的点。
 	///  @param[in]		ref			The reference id to the polygon.
 	///  @param[in]		pos			The position to check. [(x, y, z)]
 	///  @param[out]	closest		The closest point. [(x, y, z)]
@@ -475,6 +502,7 @@ public:
 	dtStatus closestPointOnPolyBoundary(dtPolyRef ref, const float* pos, float* closest) const;
 	
 	/// Gets the height of the polygon at the provided position using the height detail. (Most accurate.)
+    /// 使用高度详细信息获取所提供位置处多边形的高度(最准确)
 	///  @param[in]		ref			The reference id of the polygon.
 	///  @param[in]		pos			A position within the xz-bounds of the polygon. [(x, y, z)]
 	///  @param[out]	height		The height at the surface of the polygon.
@@ -482,15 +510,19 @@ public:
 	dtStatus getPolyHeight(dtPolyRef ref, const float* pos, float* height) const;
 
 	/// @}
-	/// @name Miscellaneous Functions
+
+
+	/// @name Miscellaneous Functions       其他函数 ---------------------------------------------
 	/// @{
 
 	/// Returns true if the polygon reference is valid and passes the filter restrictions.
+    /// 如果多边形引用有效并通过过滤器限制，则返回true。
 	///  @param[in]		ref			The polygon reference to check.
 	///  @param[in]		filter		The filter to apply.
 	bool isValidPolyRef(dtPolyRef ref, const dtQueryFilter* filter) const;
 
 	/// Returns true if the polygon reference is in the closed list. 
+    /// 如果多边形引用位于闭合列表中，则返回true。
 	///  @param[in]		ref		The reference id of the polygon to check.
 	/// @returns True if the polygon is in closed list.
 	bool isInClosedList(dtPolyRef ref) const;
